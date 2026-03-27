@@ -1,1 +1,3 @@
 # gamewithevil
+
+SHITTIEST RBX SCRIPT EVER LOLOLOLZ!1!1
