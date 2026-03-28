@@ -11,15 +11,15 @@ local hrp = char.HumanoidRootPart
 
 local function firetouch(part)
     if not part then return end
+    
+    -- Physically teleport to ensure server-side collision
+    hrp.CFrame = part.CFrame
+    task.wait(0.1)
+    
     if firetouchinterest then
         firetouchinterest(hrp, part, 0)
         task.wait(0.1)
         firetouchinterest(hrp, part, 1)
-    else
-        local old = hrp.CFrame
-        hrp.CFrame = part.CFrame
-        task.wait(0.5)
-        hrp.CFrame = old
     end
 end
 
