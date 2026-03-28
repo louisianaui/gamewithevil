@@ -338,24 +338,50 @@ BadgeGroup:AddButton("GATEWAY BADGE - AUTOCOMPLETE", function()
     local placeId = 71890755840747
     local scriptUrl = "https://raw.githubusercontent.com/louisianaui/gamewithevil/refs/heads/main/gateway.lua"
     
-    local queue = queue_on_teleport or (syn and syn.queue_on_teleport)
+    local queue = queue_on_teleport
     if queue then
         queue([[loadstring(game:HttpGet("]] .. scriptUrl .. [["))()]])
     end
     
-    game:GetService("TeleportService"):Teleport(placeId, game:GetService("Players").LocalPlayer)
+    if type(teleport) == "function" then
+        teleport(placeId)
+    else
+        local success, err = pcall(function()
+            game:GetService("TeleportService"):Teleport(placeId, game:GetService("Players").LocalPlayer)
+        end)
+        
+        if not success or err then
+            if setclipboard then
+                setclipboard("https://www.roblox.com/games/" .. tostring(placeId))
+                Library:Notify("Teleport blocked! Link copied to clipboard. Join manually to auto-execute.", 5)
+            end
+        end
+    end
 end)
 
 BadgeGroup:AddButton("SOGGY OBBY BADGE - AUTOCOMPLETE", function()
     local placeId = 96172353717244
     local scriptUrl = "https://raw.githubusercontent.com/louisianaui/gamewithevil/refs/heads/main/soggyobby.lua"
     
-    local queue = queue_on_teleport or (syn and syn.queue_on_teleport)
+    local queue = queue_on_teleport
     if queue then
         queue([[loadstring(game:HttpGet("]] .. scriptUrl .. [["))()]])
     end
     
-    game:GetService("TeleportService"):Teleport(placeId, game:GetService("Players").LocalPlayer)
+    if type(teleport) == "function" then
+        teleport(placeId)
+    else
+        local success, err = pcall(function()
+            game:GetService("TeleportService"):Teleport(placeId, game:GetService("Players").LocalPlayer)
+        end)
+        
+        if not success or err then
+            if setclipboard then
+                setclipboard("https://www.roblox.com/games/" .. tostring(placeId))
+                Library:Notify("Teleport blocked! Link copied to clipboard. Join manually to auto-execute.", 5)
+            end
+        end
+    end
 end)
 
 ThemeManager:SetLibrary(Library)
