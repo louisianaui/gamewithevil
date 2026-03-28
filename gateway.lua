@@ -15,10 +15,6 @@ local hrp = char.HumanoidRootPart
 local function firetouch(part, fires)
     if not part then return end
     
-    -- Bring the part to the player safely
-    local oldCFrame = part.CFrame
-    part.CFrame = hrp.CFrame
-    
     if firetouchinterest then
         for i = 1, (fires or 2) do
             firetouchinterest(hrp, part, 0)
@@ -27,9 +23,6 @@ local function firetouch(part, fires)
             task.wait(1)
         end
     end
-    
-    -- Optional: put it back
-    part.CFrame = oldCFrame
 end
 
 local pid = game.PlaceId
@@ -38,9 +31,12 @@ if pid == 71890755840747 then
     local light = workspace:FindFirstChild("The Light")
     if light then
         print("gateway door")
+        local targetPos = Vector3.new(-9.53674316e-07, 83.5250244, -20.4998016)
+        
         for _, v in pairs(light:GetChildren()) do
-            if v:IsA("BasePart") then
+            if v:IsA("BasePart") and (v.Position - targetPos).Magnitude < 0.1 then
                 firetouch(v)
+                break
             end
         end
     end
@@ -48,9 +44,18 @@ if pid == 71890755840747 then
     task.wait(1.5)
     
     local walls = workspace:FindFirstChild("Walls")
-    if walls and walls:GetChildren()[8] then
+    if walls then
         print("secret door")
-        firetouch(walls:GetChildren()[8])
+        local targetPos = Vector3.new(20.8749981, 92, -14)
+        
+        for _, v in pairs(walls:GetChildren()) do
+            if v:IsA("BasePart") and (v.Position - targetPos).Magnitude < 0.1 then
+                hrp.CFrame = v.CFrame
+                task.wait(0.2)
+                firetouch(v)
+                break
+            end
+        end
     end
 
 elseif pid == 94968829250525 then
