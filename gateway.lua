@@ -12,18 +12,24 @@ local char = plr.Character or plr.CharacterAdded:Wait()
 repeat task.wait() until char:FindFirstChild("HumanoidRootPart")
 local hrp = char.HumanoidRootPart
 
-local function firetouch(part, duration)
+local function firetouch(part, fires)
     if not part then return end
     
-    local endTime = tick() + (duration or 1)
+    -- Bring the part to the player safely
+    local oldCFrame = part.CFrame
+    part.CFrame = hrp.CFrame
+    
     if firetouchinterest then
-        while tick() < endTime do
+        for i = 1, (fires or 2) do
             firetouchinterest(hrp, part, 0)
-            task.wait(0.05)
+            task.wait(1)
             firetouchinterest(hrp, part, 1)
-            task.wait(0.05)
+            task.wait(1)
         end
     end
+    
+    -- Optional: put it back
+    part.CFrame = oldCFrame
 end
 
 local pid = game.PlaceId
