@@ -3,6 +3,8 @@ if qot then
     qot('loadstring(game:HttpGet("https://raw.githubusercontent.com/louisianaui/gamewithevil/refs/heads/main/gateway.lua"))()')
 end
 
+local DELAY = 0.25
+
 local Players = game:GetService("Players")
 while not Players.LocalPlayer do task.wait() end
 local plr = Players.LocalPlayer
@@ -15,14 +17,19 @@ local hrp = char.HumanoidRootPart
 local function firetouch(part, fires)
     if not part then return end
     
+    local oldCFrame = part.CFrame
+    part.CFrame = hrp.CFrame
+    
     if firetouchinterest then
         for i = 1, (fires or 2) do
             firetouchinterest(hrp, part, 0)
-            task.wait(1)
+            task.wait(DELAY)
             firetouchinterest(hrp, part, 1)
-            task.wait(1)
+            task.wait(DELAY)
         end
     end
+    
+    part.CFrame = oldCFrame
 end
 
 local pid = game.PlaceId
@@ -41,7 +48,7 @@ if pid == 71890755840747 then
         end
     end
     
-    task.wait(1.5)
+    task.wait(DELAY * 3) -- Slightly longer wait before teleporting!
     
     local walls = workspace:FindFirstChild("Walls")
     if walls then
@@ -51,7 +58,7 @@ if pid == 71890755840747 then
         for _, v in pairs(walls:GetChildren()) do
             if v:IsA("BasePart") and (v.Position - targetPos).Magnitude < 0.1 then
                 hrp.CFrame = v.CFrame
-                task.wait(0.2)
+                task.wait(DELAY * 0.4)
                 firetouch(v)
                 break
             end
@@ -62,18 +69,18 @@ elseif pid == 94968829250525 then
     print("loaded into subplace")
     
     local pt2 = workspace:WaitForChild("Puzzle Part Two", 10)
-    task.wait(1)
+    task.wait(DELAY * 2)
     
     if pt2 then
         print("keys")
         if pt2:WaitForChild("A", 5) and pt2.A:WaitForChild("Key1", 5) then
             firetouch(pt2.A.Key1)
         end
-        task.wait(0.5)
+        task.wait(DELAY)
         if pt2:WaitForChild("B", 5) and pt2.B:WaitForChild("Key2", 5) then
             firetouch(pt2.B.Key2)
         end
-        task.wait(0.5)
+        task.wait(DELAY)
     end
     
     local prize = workspace:WaitForChild("PRIZE", 5)
@@ -81,4 +88,6 @@ elseif pid == 94968829250525 then
         print("got prize")
         firetouch(prize["inverse sphere"])
     end
+else
+    print("Gateway: Unknown PlaceId (" .. tostring(game.PlaceId) .. "). Script terminating.")
 end
