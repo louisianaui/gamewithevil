@@ -48,7 +48,7 @@ if pid == 71890755840747 then
         end
     end
     
-    task.wait(DELAY * 3) -- Slightly longer wait before teleporting!
+    task.wait(DELAY * 3)
     
     local walls = workspace:FindFirstChild("Walls")
     if walls then
