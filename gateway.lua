@@ -15,9 +15,6 @@ local hrp = char.HumanoidRootPart
 local function firetouch(part, duration)
     if not part then return end
     
-    hrp.CFrame = part.CFrame
-    task.wait(0.1)
-    
     local endTime = tick() + (duration or 1)
     if firetouchinterest then
         while tick() < endTime do
